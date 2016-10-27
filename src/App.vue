@@ -3,24 +3,30 @@
         <div class="componentWrap">
             <ul v-sortable="componentListSortableOption">
                 <template v-for="item in componentShowList">
-                    <li :data-name="item">{{item}}</li>
+                    <li :data-name="item">
+                        <div id="mount">
+                            {{item}}
+                        </div>
+                    </li>
                 </template>
             </ul>
         </div>
         <div class="canvasWrap">
-            <ul class="canvasSortable" @click="renderSettingForm" v-sortable="canvasSortableOption">
-                <template v-for="item in componentShowList">
-                    <li :data-name="item">{{item}}</li>
-                </template>
+            <ul class="canvasSortable" v-sortable="canvasSortableOption">
             </ul>
         </div>
-        <div class="settingForm"></div>
+        <div class="settingForm">
+            <setting-bridge ref="settingBridge" :setting-data="settingData" :instance="settingInstance"></setting-bridge>
+        </div>
     </div>
 </template>
 
 <script>
-    import Hello from './components/Hello'
-    import sortable from './directive/vue-sortable'
+    import Hello from './components/Hello/setting'
+    import radioHello from './components/radioHello/setting'
+    import settingBridge from './components/settingBridge'
+    import vue from 'vue'
+    import sortable from './directive/vueSortable'
 
     export default {
         name: 'App',
@@ -28,21 +34,27 @@
             sortable
         },
         components: {
-            Hello
+            Hello,
+            settingBridge,
+            radioHello
         },
         methods:{
-            renderSettingForm:function (e) {
-                var target = e.target;
-                var name = target.dataset.name;
-                debugger;
-                var componentConstruct = this.$options.components['Hello'];
-                var instance = new componentConstruct({});
+            renderSettingForm:function (componentName,instance,e) {
+                var setting = instance.$options.props.settingDefinition
+                setting.id = setting.id ? setting.id+1 : 1
+                this.settingData = setting
+                this.settingInstance = instance
+//                this.$refs.settingBridge.render(setting);
+//                var target = e.target;
+//                console.log(arguments);
             }
         },
         data: function () {
             var me = this;
             return {
-                componentList: ['Hello'],
+                componentList: ['Hello','radioHello'],
+                settingData:{},
+                settingInstance:{},
                 componentListSortableOption: {
                     group: {
                         name: 'canvasSortableGroup',
@@ -64,13 +76,15 @@
                         console.log('filter');
                     },
                     onAdd: function (evt) {
-                        debugger;
                         var item = evt.item;
                         var name = item.dataset.name;
+                        var mountNode = item.childNodes[0];
                         var componentConstruct = me.$options.components[name];
                         var instance = new componentConstruct({
-                            el:item
-                        })
+                            el:mountNode
+                        });
+                        var handler = me.renderSettingForm.bind(me,name,instance);
+                        item.onclick = handler;
                     }
                 }
             }
@@ -80,7 +94,7 @@
                 var me = this;
                 return this.componentList.map((item) => {
                     var componentConstruct = me.$options.components[item];
-                    var instance = new componentConstruct({})
+                    var instance = new componentConstruct({});
                     me.$options.childInstance[item] = instance;
                     return instance.$options.name
                 })
