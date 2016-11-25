@@ -12,10 +12,12 @@
     "html-webpack-plugin": "^2.24.0",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
+    "ljson": "^2.0.0",
     "lodash": "^4.16.4",
     "postcss-pxtorem": "^3.3.1",
     "sortablejs": "^1.4.2",
-    "vue": "^2.0.1"
+    "vue": "^2.0.1",
+    "vuedraggable": "^2.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",

@@ -10,6 +10,13 @@ index.props['settingDefinition'] = {
                 inputValue: []
             },
         }
+    },
+    computed: {
+        submitData: function () {
+            return {
+                msg: this.msg.inputValue[0]
+            }
+        }
     }
 }
 export default index

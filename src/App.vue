@@ -80,9 +80,9 @@
                         var name = item.dataset.name;
                         var mountNode = item.childNodes[0];
                         var componentConstruct = me.$options.components[name];
-                        var instance = new componentConstruct({
+                        var instance = new vue(Object.assign(componentConstruct,{
                             el:mountNode
-                        });
+                        }));
                         var handler = me.renderSettingForm.bind(me,name,instance);
                         item.onclick = handler;
                     }
@@ -94,10 +94,18 @@
                 var me = this;
                 return this.componentList.map((item) => {
                     var componentConstruct = me.$options.components[item];
-                    var instance = new componentConstruct({});
+                    var instance = new vue(componentConstruct);
                     me.$options.childInstance[item] = instance;
                     return instance.$options.name
                 })
+            }
+        },
+        watch:{
+            componentShowList:{
+                handler:function () {
+                    console.log('fuck');
+                },
+                immediate:true
             }
         },
         beforeCreate:function () {

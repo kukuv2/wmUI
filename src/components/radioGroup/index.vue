@@ -1,8 +1,8 @@
 <template>
     <div>
-        <template v-for="(item, $index) in componentData.radioData" track-by="$index">
+        <template v-for="(item, $index) in radioData" track-by="$index">
             <div class="mgrt20">
-                <input type="radio" :value='item.value' v-model='componentData.radioValue' :disabled="item.disabled"> <span
+                <input type="radio" :value='item.value' v-model='radioValue' :disabled="item.disabled"> <span
                     class="pdboth5">{{item.label}}</span>
             </div>
         </template>
@@ -13,16 +13,23 @@
 <script>
     import _ from 'lodash'
     export default{
-        props: ['componentData'],
+        props: {
+            radioValue:{
+                type:String
+            },
+            radioLabel:{
+                type:Array
+            }
+        },
         data: function () {
             return {
                 radioValue: []
             }
         },
         watch: {
-            'componentData.radioValue': function (val) {
-                this.$set('componentData.radioLabel', _.find(
-                        this.componentData.radioData, {value: val}).label)
+            'radioValue': function (val) {
+                this.$set('radioLabel', _.find(
+                        this.radioData, {value: val}).label)
             }
         }
     }

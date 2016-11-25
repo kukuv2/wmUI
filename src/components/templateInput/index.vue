@@ -7,9 +7,9 @@
                 <span class="pdboth5">
                 <input name=""
                        type="text"
-                       :disabled="componentData.disabledArr ? componentData.disabledArr[$index] : false"
+                       :disabled="disabledArr ? disabledArr[$index] : false"
                        class="form-control mini"
-                       v-model="componentData.inputValue[$index]">
+                       v-model="inputValue[$index]">
             </span>
             </template>
             <template v-else>
@@ -21,15 +21,27 @@
 <style></style>
 <script>
     export default{
-        props: ['componentData'],
+        props: {
+            template:{
+                type:String
+            },
+            inputValue:{
+                type:Array
+            },
+            disabledArr:{
+                type:Array,
+                default:function () {
+                    return []
+                }
+            }
+        },
         data: function () {
             return {
-                inputValue: []
             }
         },
         computed: {
             inputTexts: function () {
-                return this.componentData.template.split('%i')
+                return this.template.split('%i')
             }
         }
     }

@@ -14,7 +14,7 @@
         },
         props: {
             settingData: Object,
-            instance:Object
+            instance: Object
         },
         components: {
             vueForm,
@@ -24,7 +24,7 @@
         },
         render(h){
             var settingData = this.settingData
-            var vueFormSetting = {}
+            var vueFormElement = {}
             /*if (!this.$refs['vueForm']) {
 
              } else {
@@ -34,47 +34,28 @@
             var defaultSetting = {
                 extends: vueForm
             }
-            Object.assign(defaultSetting, settingData);
+            var vueFormSetting = vue.util.mergeOptions(defaultSetting, settingData)
             if (!_.isEmpty(settingData)) {
-                vueFormSetting = h(defaultSetting, {
+                vueFormElement = h(vueFormSetting, {
                     ref: 'vueForm',
-                    on:{
-                        submit:this.handleSubmit
+                    on: {
+                        submit: this.handleSubmit
                     }
                 })
             }
-            return h('div', {
-                attrs: {
-                    id: 'settingBridge',
-                }
-            }, [
-                h('div', {
-                    attrs: {
-                        id: `${this.uuid}formHook`,
-                    }
-                }, [
-                    vueFormSetting
-                ])
-            ]);
-            /*return (
-             <div id="settingBridge">
-             <div id={`${this.uuid}formHook`}>
-             {}
-             <newIdVueForm ID={defaultSetting.id} ref="vueForm" id="fuck" ></newIdVueForm>
-             </div>
-             </div>
-             )*/
+            return (
+                    <div id="settingBridge">
+                        <div id={`${this.uuid}formHook`}>
+                            {vueFormElement}
+                        </div>
+                    </div>
+            )
         },
         methods: {
-            handleSubmit:function (data) {
-                debugger
-                this.instance.$set(this.instance,'msg',data)
-            },
-            changeForm: function (setting) {
-
-                var vueForm = this.appendByEl(this.vueFormEl, defaultSetting);
-                vueForm.$parent = this
-                this.$children['vueForm'] = vueForm
+            handleSubmit: function (data) {
+                _.forEach(data,(item,key) => {
+                    this.instance.$set(this.instance, key, item)
+                })
             }
         }
     }
