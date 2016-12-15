@@ -53,21 +53,21 @@
         name: 'vueForm',
         props: {
             /*childComponentDatas: {
-                type: Object,
-                required: true
-            },*/
+             type: Object,
+             required: true
+             },*/
             /*valueTransform: {
-                type: Object
-            },*/
+             type: Object
+             },*/
             /*submitData: {
-                type: Object,
-                default: function () {
-                    return {}
-                }
-            },*/
+             type: Object,
+             default: function () {
+             return {}
+             }
+             },*/
             /*submit: {
-                type: Function
-            }*/
+             type: Function
+             }*/
         },
         render: function (h) {
             return (
@@ -104,62 +104,62 @@
                     </div>
             )
         },
-        watch:{
-            submitData:function (newVal) {
+        watch: {
+            submitData: function (newVal) {
                 this.$emit('submit', this.submitData)
             }
         },
         methods: {
             /*formSubmit: function () {
-                if (this.validate()) {
-                    this.gatherValue()
-                    if (this.submit) {
-                        this.submit()
-                    } else {
-                        this.$emit('submit', this.submitData)
-                    }
-                }
-            },
-            gatherValue: function () {
-                var formVm = this;
-                _.forEach(this.valueTransform, function (transformValue, submitDataPath) {
-                    var submitValue = '';
-                    var componentValue = '';
-                    var submitAbsolutePath = 'submitData.' + submitDataPath;
-                    var transformValueAbsolutePath = 'childComponentDatas.' + transformValue.path;
-                    var transformKeyAbsolutePath = transformValueAbsolutePath.slice(0,
-                            transformValueAbsolutePath.indexOf('.componentData') + 14);
-                    if (transformValue.value) {
-                        _.set(formVm, submitAbsolutePath, JSON.parse(JSON.stringify(transformValue.value)));
-                    } else {
-                        submitValue = _.get(formVm, submitAbsolutePath);
-                        var gatherTransform = transformValue.gatherTransform;
-                        componentValue = _.get(formVm, transformValueAbsolutePath);
-                        var argumentArray = [
-                            componentValue, _.get(formVm, transformKeyAbsolutePath), submitValue, formVm.submitData,
+             if (this.validate()) {
+             this.gatherValue()
+             if (this.submit) {
+             this.submit()
+             } else {
+             this.$emit('submit', this.submitData)
+             }
+             }
+             },
+             gatherValue: function () {
+             var formVm = this;
+             _.forEach(this.valueTransform, function (transformValue, submitDataPath) {
+             var submitValue = '';
+             var componentValue = '';
+             var submitAbsolutePath = 'submitData.' + submitDataPath;
+             var transformValueAbsolutePath = 'childComponentDatas.' + transformValue.path;
+             var transformKeyAbsolutePath = transformValueAbsolutePath.slice(0,
+             transformValueAbsolutePath.indexOf('.componentData') + 14);
+             if (transformValue.value) {
+             _.set(formVm, submitAbsolutePath, JSON.parse(JSON.stringify(transformValue.value)));
+             } else {
+             submitValue = _.get(formVm, submitAbsolutePath);
+             var gatherTransform = transformValue.gatherTransform;
+             componentValue = _.get(formVm, transformValueAbsolutePath);
+             var argumentArray = [
+             componentValue, _.get(formVm, transformKeyAbsolutePath), submitValue, formVm.submitData,
 
-                        ];
+             ];
 
-                        if (gatherTransform && (typeof gatherTransform === 'function')) {
-                            submitValue = gatherTransform.apply(formVm, argumentArray);
-                            if (!_.isUndefined(submitValue)) {
-                                _.set(formVm, submitAbsolutePath, JSON.parse(JSON.stringify(submitValue)));
-                            }
-                        } else {
-                            if (!_.isUndefined(componentValue)) {
-                                _.set(formVm, submitAbsolutePath, JSON.parse(JSON.stringify(componentValue)));
-                            }
-                        }
-                    }
-                })
-            },
-            backFillValue: function () {
+             if (gatherTransform && (typeof gatherTransform === 'function')) {
+             submitValue = gatherTransform.apply(formVm, argumentArray);
+             if (!_.isUndefined(submitValue)) {
+             _.set(formVm, submitAbsolutePath, JSON.parse(JSON.stringify(submitValue)));
+             }
+             } else {
+             if (!_.isUndefined(componentValue)) {
+             _.set(formVm, submitAbsolutePath, JSON.parse(JSON.stringify(componentValue)));
+             }
+             }
+             }
+             })
+             },
+             backFillValue: function () {
 
-            },
-            validate: function () {
-                var validateResult = true;
-                return validateResult;
-            }*/
+             },
+             validate: function () {
+             var validateResult = true;
+             return validateResult;
+             }*/
         },
         /*beforeCreate:function () {
          console.log('beforeCreate');
@@ -202,30 +202,30 @@
         },
         computed: {
             /*sortChildComponentData: function () {
-                var setting = {};
-                var resutl = [];
-                if (!this.childComponentDatas) {
-                    setting = this.$options.setting
-                } else {
-                    setting = this.childComponentDatas
-                }
-                setting = JSON.parse(JSON.stringify(setting))
-                _.forEach(setting, function (item, key) {
-                    resutl.push({
-                        key,
-                        item
-                    });
-                });
-                return resutl
-            }*/
+             var setting = {};
+             var resutl = [];
+             if (!this.childComponentDatas) {
+             setting = this.$options.setting
+             } else {
+             setting = this.childComponentDatas
+             }
+             setting = JSON.parse(JSON.stringify(setting))
+             _.forEach(setting, function (item, key) {
+             resutl.push({
+             key,
+             item
+             });
+             });
+             return resutl
+             }*/
         },
         components: {
             templateInput,
             radioGroup
         },
         /*created: function () {
-            this.backFillValue();
-        }*/
+         this.backFillValue();
+         }*/
     }
 
 
