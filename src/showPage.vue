@@ -1,73 +1,32 @@
 <template>
-    <div id="a">
-        this is show page
-    </div>
+    <span>
+        <engine :config="config" :map-config="mapConfig">
+        </engine>
+    </span>
 </template>
 
 <script>
-    import Hello from './components/Hello/setting'
-    import radioHello from './components/radioHello/setting'
-    import settingBridge from './components/settingBridge'
-    import vue from 'vue'
-    import sortable from './directive/vueSortable'
+    import config from './config'
+    import mapConfig from './mapConfig'
+    import engine from './engine.vue'
 
     export default {
         name: 'App',
-        directives: {
-            sortable
-        },
         components: {
-            Hello,
-            settingBridge,
-            radioHello
-        },
-        methods:{
+            engine
         },
         data: function () {
-            var me = this;
             return {
+                config,
+                mapConfig
             }
         },
-        computed: {
-        },
-        beforeCreate:function () {
+        watch: {
         }
-
     }
 </script>
 
 <style lang="less"
        rel="stylesheet/less">
-    @import './styles/index.less';
 
-    .fullHeight {
-        height: 100%;
-    }
-
-    .fullWight {
-        width: 100%;
-    }
-
-    html, body, #app {
-        .fullHeight;
-        .fullWight;
-    }
-
-    @componentWidth: 750px;
-    #app {
-        display: flex;
-        .componentWrap {
-            width: 280px;
-        }
-        .canvasWrap {
-            width: @componentWidth;
-            .canvasSortable{
-                .fullHeight
-            }
-        }
-        .settingForm {
-            background-color: silver;
-            flex-grow: 1;
-        }
-    }
 </style>
