@@ -1,5 +1,5 @@
 export default {
-    /*table: {
+    table: {
         vuex:{
             state: {
                 data: 'tableData'
@@ -8,5 +8,5 @@ export default {
         extend:{
 
         }
-    }*/
+    }
 }

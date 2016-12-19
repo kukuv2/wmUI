@@ -3,7 +3,7 @@ export default {
         {
             tag: 'el-table',
             data: {
-                // ref: "table",
+                ref: "table",
                 staticStyle: {"width": "100%"}
             },
             children: [
