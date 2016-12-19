@@ -1,12 +1,22 @@
+import store from './store'
 export default {
     table: {
         vuex:{
-            state: {
+            getters: {
                 data: 'tableData'
             }
         },
         extend:{
 
+        },
+    },
+    button:{
+        data:{
+            on:{
+                click:function () {
+                    store.commit('clear')
+                }
+            }
         }
     }
 }

@@ -32,75 +32,82 @@
             }
         },
         methods: {
-            getOptions: function (ref) {
+            getComponent: function (ref) {
                 var refComponent;
                 refComponent = this.$options.components[ref]
                 if (!refComponent) {
                     refComponent = Vue.component(ref)
                 }
                 if (refComponent) {
-                    return refComponent.options
+                    return refComponent
                 }
                 return false;
             },
-            mergeOptionsByMapConfig: function (definition, itemMapConfig) {
+            mergeOptionsByMapConfig: function (component, data, itemMapConfig) {
                 var vuexSetting = _.cloneDeep(itemMapConfig.vuex);
                 var extend = itemMapConfig.extend || {};
-                var options = {
-                    computed: {
-                        ...extend.computed,
-                        ...mapState(vuexSetting.state ? vuexSetting.state : {}),
-                        ...mapGetters(vuexSetting.getters ? vuexSetting.getters : {})
-                    },
-                    methods: {
-                        ...extend.methods,
-                        ...mapMutations(vuexSetting.mutations ? vuexSetting.mutations : {}),
-                        ...mapActions(vuexSetting.actions ? vuexSetting.actions : {})
-                    }
-                };
-                Object.assign(extend, options)
-                var optionsArray = [
-                    'data', 'props', 'computed', 'methods',
-                    'watch',
-//                    'el',
-                    'template', 'render', 'beforeCreate',
-                    'created',
-                    'beforeMount',
-                    'mounted',
-                    'beforeUpdate',
-                    'updated',
-                    'beforeDestroy',
-                    'destroyed',
-                    'activated',
-                    'deactivated',
-                    'directives',
-                    'filters',
-                    'components',
-                    'parent',
-                    'mixins',
-//                    'name',
-                    'extends',
-                    'delimiters',
-                    'functional'
-                ];
-                var result, cloneDefinition, newDefinition = {};
-                cloneDefinition = _.cloneDeep(definition);
-                optionsArray.forEach(function (item) {
-                            var value = cloneDefinition[item];
-                            if (typeof value === 'function') {
-                                newDefinition[item] = value
-                            } else {
-                                newDefinition[item] = _.cloneDeep(value)
-                            }
+                var config = itemMapConfig.data || {};
+                var options = {};
+                if(vuexSetting){
+                    options = {
+                        computed: {
+                            ...extend.computed,
+                            ...mapState(vuexSetting.state ? vuexSetting.state : {}),
+                            ...mapGetters(vuexSetting.getters ? vuexSetting.getters : {})
+                        },
+                        methods: {
+                            ...extend.methods,
+                            ...mapMutations(vuexSetting.mutations ? vuexSetting.mutations : {}),
+                            ...mapActions(vuexSetting.actions ? vuexSetting.actions : {})
                         }
-                )
-                result = Vue.util.mergeOptions(newDefinition, extend);
-//                result = Vue.util.mergeOptions(cloneDefinition, extend);
-                result.id = result.id ? result.id + 1 : 1
+                    };
+                }
+                Object.assign(extend, options)
+                Object.assign(data, config)
+//                var optionsArray = [
+//                    'data', 'props', 'computed', 'methods',
+//                    'watch',
+////                    'el',
+//                    'template', 'render', 'beforeCreate',
+//                    'created',
+//                    'beforeMount',
+//                    'mounted',
+//                    'beforeUpdate',
+//                    'updated',
+//                    'beforeDestroy',
+//                    'destroyed',
+//                    'activated',
+//                    'deactivated',
+//                    'directives',
+//                    'filters',
+//                    'components',
+//                    'parent',
+//                    'mixins',
+////                    'name',
+//                    'extends',
+//                    'delimiters',
+//                    'functional'
+//                ];
+//                var result, cloneDefinition, newDefinition = {};
+//                cloneDefinition = _.cloneDeep(definition);
+//                optionsArray.forEach(function (item) {
+//                            var value = cloneDefinition[item];
+//                            if (typeof value === 'function') {
+//                                newDefinition[item] = value
+//                            } else {
+//                                newDefinition[item] = _.cloneDeep(value)
+//                            }
+//                        }
+//                )
+                var result = component.extend(extend);
+
+//                result = Vue.util.mergeOptions(newDefinition, extend);
+////                result = Vue.util.mergeOptions(cloneDefinition, extend);
+//                result.id = result.id ? result.id + 1 : 1
                 return result;
             },
             createVnode: function (h, item) {
-                var data = _.cloneDeep(item.data);
+                var data = _.cloneDeep(item.data || {});
                 var mapConfig = this.freezeMapConfig;
                 var definition = item.tag;
                 var children = [];
@@ -109,21 +116,24 @@
                     var ref = data.ref;
                     var itemMapConfig = mapConfig[ref];
                     if (itemMapConfig) {
-                        definition = this.getOptions(item.tag)
-                        result = this.mergeOptionsByMapConfig(definition, itemMapConfig)
+                        definition = this.getComponent(item.tag)
+                        result = this.mergeOptionsByMapConfig(definition, data, itemMapConfig)
                     }
                 }
                 if (item.children) {
                     var cloneChildren = _.cloneDeep(item.children)
                     cloneChildren.forEach((childItem) => {
+                                if (typeof childItem === 'string') {
+                                    children.push(childItem);
+                                }
                                 children.push(this.createVnode(h, childItem));
                             }
                     )
                 }
                 if (result) {
-                    return h(_.cloneDeep(result), _.cloneDeep(data), children);
+                    return h(result, data, children);
                 }
-                return h(_.cloneDeep(definition), _.cloneDeep(data), children);
+                return h(definition, data, children);
 
 
             }

@@ -1,6 +1,13 @@
 export default {
     renderData: [
         {
+            tag:'ElButton',
+            data:{
+                ref:'button'
+            },
+            children:['clear']
+        },
+        {
             tag: 'el-table',
             data: {
                 ref: "table",
