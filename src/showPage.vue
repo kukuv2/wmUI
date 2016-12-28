@@ -16,6 +16,7 @@
             engine
         },
         data: function () {
+            Object.freeze()
             return {
                 config,
                 mapConfig

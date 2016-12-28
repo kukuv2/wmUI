@@ -1,6 +1,9 @@
 <template>
     <div id="app">
         <div class="componentWrap">
+            <!--<ul>
+                <li draggable="true">fdsfsfdsfsdf</li>
+            </ul>-->
             <ul v-sortable="componentListSortableOption">
                 <template v-for="item in componentShowList">
                     <li :data-name="item">
@@ -12,11 +15,20 @@
             </ul>
         </div>
         <div class="canvasWrap">
-            <ul class="canvasSortable" v-sortable="canvasSortableOption">
+            <ul class="canvasSortable"
+                v-sortable="canvasSortableOption">
+                <engine :config="config"></engine>
             </ul>
+            <!--<ul @drop="handleDrap"
+                @dragenter="handleDrap"
+                class="canvasSortable">
+                <engine :config="config"></engine>
+            </ul>-->
         </div>
         <div class="settingForm">
-            <setting-bridge ref="settingBridge" :setting-data="settingData" :instance="settingInstance"></setting-bridge>
+            <setting-bridge ref="settingBridge"
+                            :setting-data="settingData"
+                            :instance="settingInstance"></setting-bridge>
         </div>
     </div>
 </template>
@@ -27,6 +39,7 @@
     import settingBridge from './components/settingBridge'
     import vue from 'vue'
     import sortable from './directive/vueSortable'
+    import engine from './engine'
 
     export default {
         name: 'App',
@@ -36,12 +49,19 @@
         components: {
             Hello,
             settingBridge,
-            radioHello
+            radioHello,
+            engine
         },
-        methods:{
-            renderSettingForm:function (componentName,instance,e) {
+        methods: {
+            handleDrap: function (e) {
+                console.log(e);
+                var item = e.item;
+                debugger
+                var name = item.dataset.name;
+            },
+            renderSettingForm: function (componentName, instance, e) {
                 var setting = instance.$options.props.settingDefinition
-                setting.id = setting.id ? setting.id+1 : 1
+                setting.id = setting.id ? setting.id + 1 : 1
                 this.settingData = setting
                 this.settingInstance = instance
 //                this.$refs.settingBridge.render(setting);
@@ -52,9 +72,9 @@
         data: function () {
             var me = this;
             return {
-                componentList: ['Hello','radioHello'],
-                settingData:{},
-                settingInstance:{},
+                componentList: ['Hello', 'radioHello'],
+                settingData: {},
+                settingInstance: {},
                 componentListSortableOption: {
                     group: {
                         name: 'canvasSortableGroup',
@@ -64,6 +84,7 @@
                     sort: false,
                     animation: 150
                 },
+                config: {},
                 canvasSortableOption: {
                     group: {
                         name: 'canvasSortableGroup',
@@ -80,10 +101,10 @@
                         var name = item.dataset.name;
                         var mountNode = item.childNodes[0];
                         var componentConstruct = me.$options.components[name];
-                        var instance = new vue(Object.assign(componentConstruct,{
-                            el:mountNode
+                        var instance = new vue(Object.assign(componentConstruct, {
+                            el: mountNode
                         }));
-                        var handler = me.renderSettingForm.bind(me,name,instance);
+                        var handler = me.renderSettingForm.bind(me, name, instance);
                         item.onclick = handler;
                     }
                 }
@@ -93,29 +114,31 @@
             componentShowList: function () {
                 var me = this;
                 return this.componentList.map((item) => {
-                    var componentConstruct = me.$options.components[item];
-                    var instance = new vue(componentConstruct);
-                    me.$options.childInstance[item] = instance;
-                    return instance.$options.name
-                })
+                            var componentConstruct = me.$options.components[item];
+                            var instance = new vue(componentConstruct);
+                            me.$options.childInstance[item] = instance;
+                            return instance.$options.name
+                        }
+                )
             }
         },
-        watch:{
-            componentShowList:{
-                handler:function () {
+        watch: {
+            componentShowList: {
+                handler: function () {
                     console.log('fuck');
                 },
-                immediate:true
+                immediate: true
             }
         },
-        beforeCreate:function () {
+        beforeCreate: function () {
             this.$options.childInstance = {};
         }
 
     }
 </script>
 
-<style lang="less">
+<style lang="less"
+       rel="stylesheet/less">
     @import './styles/index.less';
 
     .fullHeight {
@@ -134,18 +157,23 @@
     @componentWidth: 750px;
     #app {
         display: flex;
+
         .componentWrap {
             width: 280px;
         }
+
         .canvasWrap {
             width: @componentWidth;
-            .canvasSortable{
+
+            .canvasSortable {
                 .fullHeight
             }
+
         }
         .settingForm {
             background-color: silver;
             flex-grow: 1;
         }
+
     }
 </style>

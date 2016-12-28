@@ -23,7 +23,6 @@
             this.vueFormEl = document.getElementById(`${this.uuid}formHook`)
         },
         render(h){
-            debugger;
             var settingData = _.cloneDeep(this.settingData)
             var vueFormElement = {}
             /*if (!this.$refs['vueForm']) {
