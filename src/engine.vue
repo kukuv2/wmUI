@@ -64,46 +64,7 @@
                 }
                 Object.assign(extend, options)
                 Object.assign(data, config)
-//                var optionsArray = [
-//                    'data', 'props', 'computed', 'methods',
-//                    'watch',
-////                    'el',
-//                    'template', 'render', 'beforeCreate',
-//                    'created',
-//                    'beforeMount',
-//                    'mounted',
-//                    'beforeUpdate',
-//                    'updated',
-//                    'beforeDestroy',
-//                    'destroyed',
-//                    'activated',
-//                    'deactivated',
-//                    'directives',
-//                    'filters',
-//                    'components',
-//                    'parent',
-//                    'mixins',
-////                    'name',
-//                    'extends',
-//                    'delimiters',
-//                    'functional'
-//                ];
-//                var result, cloneDefinition, newDefinition = {};
-//                cloneDefinition = _.cloneDeep(definition);
-//                optionsArray.forEach(function (item) {
-//                            var value = cloneDefinition[item];
-//                            if (typeof value === 'function') {
-//                                newDefinition[item] = value
-//                            } else {
-//                                newDefinition[item] = _.cloneDeep(value)
-//                            }
-//                        }
-//                )
                 var result = component.extend(extend);
-
-//                result = Vue.util.mergeOptions(newDefinition, extend);
-////                result = Vue.util.mergeOptions(cloneDefinition, extend);
-//                result.id = result.id ? result.id + 1 : 1
                 return result;
             },
             createVnode: function (h, item) {
@@ -146,34 +107,6 @@
                         children: _.cloneDeep(this.freezeConfig.renderData)
                     }
             );
-
-            /*var vnode = _h('div', {}, [
-             _h('el-table', {
-             ref: "table",
-             staticStyle: {"width": "100%"},
-             }, [
-             _h('el-table-column', {
-             attrs: {
-             "prop": "date",
-             "label": "日期",
-             "width": "180"
-             }
-             }), _h('el-table-column', {
-             attrs: {
-             "prop": "name",
-             "label": "姓名",
-             "width": "180"
-             }
-             }), _h('el-table-column', {
-             attrs: {
-             "prop": "address",
-             "label": "地址"
-             }
-             })
-             ])
-             ])*/
-
-//            return vnode
             return wrapVnode
 
         },
