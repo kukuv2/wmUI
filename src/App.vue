@@ -12,11 +12,13 @@
             </ul>
         </div>
         <div class="canvasWrap">
-            <ul class="canvasSortable" v-sortable="canvasSortableOption">
-            </ul>
+            <ul class="canvasSortable"
+                v-sortable="canvasSortableOption"></ul>
         </div>
         <div class="settingForm">
-            <setting-bridge ref="settingBridge" :setting-data="settingData" :instance="settingInstance"></setting-bridge>
+            <setting-bridge ref="settingBridge"
+                            :setting-data="settingData"
+                            :instance="settingInstance"></setting-bridge>
         </div>
     </div>
 </template>
@@ -38,10 +40,10 @@
             settingBridge,
             radioHello
         },
-        methods:{
-            renderSettingForm:function (componentName,instance,e) {
+        methods: {
+            renderSettingForm: function (componentName, instance, e) {
                 var setting = instance.$options.props.settingDefinition
-                setting.id = setting.id ? setting.id+1 : 1
+                setting.id = setting.id ? setting.id + 1 : 1
                 this.settingData = setting
                 this.settingInstance = instance
 //                this.$refs.settingBridge.render(setting);
@@ -52,9 +54,9 @@
         data: function () {
             var me = this;
             return {
-                componentList: ['Hello','radioHello'],
-                settingData:{},
-                settingInstance:{},
+                componentList: ['Hello', 'radioHello'],
+                settingData: {},
+                settingInstance: {},
                 componentListSortableOption: {
                     group: {
                         name: 'canvasSortableGroup',
@@ -80,10 +82,10 @@
                         var name = item.dataset.name;
                         var mountNode = item.childNodes[0];
                         var componentConstruct = me.$options.components[name];
-                        var instance = new vue(Object.assign(componentConstruct,{
-                            el:mountNode
+                        var instance = new vue(Object.assign(componentConstruct, {
+                            el: mountNode
                         }));
-                        var handler = me.renderSettingForm.bind(me,name,instance);
+                        var handler = me.renderSettingForm.bind(me, name, instance);
                         item.onclick = handler;
                     }
                 }
@@ -100,22 +102,22 @@
                 })
             }
         },
-        watch:{
-            componentShowList:{
-                handler:function () {
+        watch: {
+            componentShowList: {
+                handler: function () {
                     console.log('fuck');
                 },
-                immediate:true
+                immediate: true
             }
         },
-        beforeCreate:function () {
+        beforeCreate: function () {
             this.$options.childInstance = {};
         }
 
     }
 </script>
-
-<style lang="less">
+<style lang="less"
+       rel="stylesheet/less">
     @import './styles/index.less';
 
     .fullHeight {
@@ -139,7 +141,7 @@
         }
         .canvasWrap {
             width: @componentWidth;
-            .canvasSortable{
+            .canvasSortable {
                 .fullHeight
             }
         }
