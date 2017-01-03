@@ -1,8 +1,11 @@
 import Vue from 'vue'
-import App from './App'
 
 /* eslint-disable no-new */
-window.vue = Vue;
+window.Vue = Vue;
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-default/index.css'
+Vue.use(ElementUI)
+import App from './App'
 new Vue({
   el: '#app',
   render: h => h(App)

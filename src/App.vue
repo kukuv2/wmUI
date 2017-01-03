@@ -25,6 +25,8 @@
 
 <script>
     import Hello from './components/Hello/setting'
+    import wmForm from './components/wmForm/setting'
+    import wmTable from './components/wmTable/setting'
     import radioHello from './components/radioHello/setting'
     import settingBridge from './components/settingBridge'
     import vue from 'vue'
@@ -37,6 +39,8 @@
         },
         components: {
             Hello,
+            wmForm,
+            wmTable,
             settingBridge,
             radioHello
         },
@@ -54,7 +58,7 @@
         data: function () {
             var me = this;
             return {
-                componentList: ['Hello', 'radioHello'],
+                componentList: ['Hello', 'radioHello','wmTable','wmForm'],
                 settingData: {},
                 settingInstance: {},
                 componentListSortableOption: {
@@ -96,9 +100,15 @@
                 var me = this;
                 return this.componentList.map((item) => {
                     var componentConstruct = me.$options.components[item];
+                    if(!componentConstruct){
+                        componentConstruct = vue.options.components[item];
+                    }
                     var instance = new vue(componentConstruct);
                     me.$options.childInstance[item] = instance;
-                    return instance.$options.name
+                    if(instance.$options.name){
+                        return instance.$options.name
+                    }
+                    return componentConstruct.options.name
                 })
             }
         },
