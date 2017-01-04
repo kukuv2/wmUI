@@ -1,21 +1,33 @@
 import index from './index'
+import gatherColumnData from './gatherColumnData/index.vue'
 index.props['settingDefinition'] = {
     setting: {
-        msg: {
-            type: 'templateInput',
+        columnData: {
+            type: 'gatherColumnData',
             label: '显示信息',
             require: true,
             componentData: {
-                template: '%i',
-                inputValue: []
+                value:[{
+                    prop:'',
+                    label:'默认'
+                }]
             },
         }
     },
+    components:{
+        gatherColumnData
+    },
     computed: {
         submitData: function () {
+
             return {
-                msg: this.msg.inputValue[0]
+                columnData: this.columnData.value
             }
+        }
+    },
+    methods:{
+        backFill:function (submitData) {
+            this.columnData.value = submitData.columnData
         }
     }
 }

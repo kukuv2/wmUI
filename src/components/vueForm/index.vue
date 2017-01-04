@@ -119,8 +119,11 @@
             )
         },
         watch: {
-            submitData: function (newVal) {
-                this.$emit('submit', this.submitData)
+            submitData: {
+                deep: true,
+                handler: function (newVal) {
+                    this.$emit('submit', newVal)
+                }
             }
         },
         methods: {
