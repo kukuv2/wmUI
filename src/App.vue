@@ -150,14 +150,14 @@
             width: 280px;
         }
         .canvasWrap {
-            width: @componentWidth;
+            flex-grow: 1;
             .canvasSortable {
                 .fullHeight
             }
         }
         .settingForm {
+            width: 900px;
             background-color: silver;
-            flex-grow: 1;
         }
     }
 </style>
