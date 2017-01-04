@@ -72,35 +72,49 @@
         render: function (h) {
             return (
                     <div class="vueForm">
-                        <div class="content">
+                        <el-form ref="ruleForm"
+                                 label-width="100px"
+                                 class="demo-ruleForm">
                             {
                                 this.sortChildComponentData.map(function (childComponentData, key) {
                                     var item = childComponentData.item
                                     return (
-                                            <div class="row"
-                                                 v-show={item.hidden !== true}>
-                                                <div class="col-md-3 form-label">
-                                                    {
-                                                        (function () {
-                                                            if (item.require) {
-                                                                return <span class="red">*</span>
-                                                            }
-                                                        })()
-                                                    } &nbsp;{item.label} :
-                                                </div>
-                                                <div class="col-md-9">
-                                                <span class={childComponentData.key}>
-                                                    {h(item.type, {
-                                                        ref: childComponentData.key,
-                                                        props: item.componentData
-                                                    })}
-                                                </span>
-                                                </div>
-                                            </div>
+                                            <el-form-item label={item.label}
+                                                          v-show={item.hidden !== true}>
+                                                {h(item.type, {
+                                                    ref: childComponentData.key,
+                                                    props: item.componentData,
+                                                    on: {
+                                                        input: (e) => {
+                                                            item.componentData.value = e
+                                                        }
+                                                    }
+                                                })}
+                                            </el-form-item>
+                                            /*<div class="row"
+                                             v-show={item.hidden !== true}>
+                                             <div class="col-md-3 form-label">
+                                             {
+                                             (function () {
+                                             if (item.require) {
+                                             return <span class="red">*</span>
+                                             }
+                                             })()
+                                             } &nbsp;{item.label} :
+                                             </div>
+                                             <div class="col-md-9">
+                                             <span class={childComponentData.key}>
+                                             {h(item.type, {
+                                             ref: childComponentData.key,
+                                             props: item.componentData
+                                             })}
+                                             </span>
+                                             </div>
+                                             </div>*/
                                     )
                                 })
                             }
-                        </div>
+                        </el-form>
                     </div>
             )
         },
@@ -199,6 +213,14 @@
             });
             result.sortChildComponentData = sortChildComponentData
             return result
+        },
+        mounted: function () {
+            var submitData = this.$options.submitData
+            if (submitData) {
+                if (this.backFill) {
+                    this.backFill(submitData)
+                }
+            }
         },
         computed: {
             /*sortChildComponentData: function () {

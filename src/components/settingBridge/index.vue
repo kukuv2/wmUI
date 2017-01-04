@@ -24,10 +24,12 @@
         },
         render(h){
             var settingData = _.cloneDeep(this.settingData)
-            debugger
             var vueFormElement = {}
             var defaultSetting = {
                 extends: vueForm
+            }
+            if(this.instance.submitData){
+                defaultSetting.submitData = this.instance.submitData
             }
             var vueFormSetting = vue.util.mergeOptions(defaultSetting, settingData)
             if (!_.isEmpty(settingData)) {
@@ -48,6 +50,7 @@
         },
         methods: {
             handleSubmit: function (data) {
+                this.instance.submitData = data;
                 _.forEach(data,(item,key) => {
                     this.instance.$set(this.instance, key, item)
                 })
