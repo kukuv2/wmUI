@@ -3,7 +3,7 @@ import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 Vue.use(ElementUI)
-import show from './showPage'
+import action from './actionPage'
 
 
 /* eslint-disable no-new */
@@ -13,6 +13,6 @@ new Vue({
     el: '#show',
     store,
     render: (h) => {
-        return h(show)
+        return h(action)
     }
 })
