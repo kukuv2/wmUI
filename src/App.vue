@@ -194,7 +194,7 @@
             }
         }
         .canvasWrap {
-            width: @componentWidth;
+            flex-grow: 1;
             .canvasSortable {
                 .fullHeight
             }
@@ -202,7 +202,7 @@
         .settingForm {
             flex-grow: 1;
 
-            .el-card__body{
+            #settingBridge{
                 background-color: #eff2f7;
                 height: 100vh;
             }

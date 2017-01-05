@@ -7,6 +7,7 @@ module.exports = {
     entry: {
         app: './src/main.js',
         show: './src/show.js',
+        action: './src/action.js',
     },
     output: {
         path: config.build.assetsRoot,
