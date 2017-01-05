@@ -8,6 +8,7 @@ import show from './showPage'
 
 /* eslint-disable no-new */
 window.Vue = Vue;
+Vue.config.silent = true
 new Vue({
     el: '#show',
     store,
