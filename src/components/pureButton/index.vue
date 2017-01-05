@@ -1,16 +1,17 @@
 <template>
-    <div class="hello">
-        <h1>{{ msg }}</h1>
+    <div class="pureButton">
+        <el-button type="primary">{{ text }}</el-button>
+        <slot></slot>
     </div>
 </template>
 
 <script>
     export default {
-        name: 'radioHello',
+        name: 'pureButton',
         props: {
-            msg: {
+            text: {
                 type: String,
-                default: 'radioHello Vue'
+                default: 'submit'
             }
         },
         data () {
