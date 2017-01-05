@@ -1,19 +1,39 @@
 <template>
     <div id="app">
         <div class="componentWrap">
-            <ul v-sortable="componentListSortableOption">
-                <template v-for="item in componentShowList">
-                    <li :data-name="item">
-                        <div id="mount">
-                            {{item}}
-                        </div>
-                    </li>
-                </template>
-            </ul>
+            <draggable :list="componentShowList"
+                       :options="componentListSortableOption"
+                       :clone="clone"
+                       class="dragArea">
+                <li v-for="item in componentShowList"
+                    :data-name="item">
+                    <div id="mount">
+                        {{item}}
+                    </div>
+                </li>
+            </draggable>
         </div>
         <div class="canvasWrap">
-            <ul class="canvasSortable"
-                v-sortable="canvasSortableOption"></ul>
+            <draggable :list="canvasComponentList"
+                       :options="canvasSortableOption"
+                       class="canvasSortable"
+                       @add="onAdd">
+                <div v-for="(item,index) in canvasComponentList"
+                     class="canvasItemWrap">
+                    <div class="filter filterWrap">
+                        <i class="el-icon-edit filter"
+                           @click="clickCanvasItem(item)"></i>
+                    </div>
+                    <component :is="item.name"
+                               :ref="item.ref">
+                        <draggable :list="canvasComponentList"
+                                   v-if="item.name === 'wmForm'"
+                                   :options="canvasSortableOption"
+                                   class="canvasSortable"
+                                   @add="onAdd"></draggable>
+                    </component>
+                </div>
+            </draggable>
         </div>
         <div class="settingForm">
             <setting-bridge ref="settingBridge"
@@ -31,6 +51,7 @@
     import settingBridge from './components/settingBridge'
     import vue from 'vue'
     import sortable from './directive/vueSortable'
+    import draggable from 'vuedraggable'
 
     export default {
         name: 'App',
@@ -42,9 +63,16 @@
             wmForm,
             wmTable,
             settingBridge,
-            radioHello
+            radioHello,
+            draggable
         },
         methods: {
+            clone: function (origin) {
+                return {
+                    name: origin,
+                    ref: new Date().getTime()
+                }
+            },
             renderSettingForm: function (componentName, instance, e) {
                 var setting = instance.$options.props.settingDefinition
                 setting.id = setting.id ? setting.id + 1 : 1
@@ -53,12 +81,35 @@
 //                this.$refs.settingBridge.render(setting);
 //                var target = e.target;
 //                console.log(arguments);
+            },
+            clickCanvasItem: function (item) {
+                var instance = this.$refs[item.ref]
+                if (Array.isArray(instance)) {
+                    instance = instance[0]
+                }
+                var setting = instance.$options.props.settingDefinition
+                setting.id = setting.id ? setting.id + 1 : 1
+                this.settingData = setting
+                this.settingInstance = instance
+            },
+            onAdd: function (evt) {
+                var item = evt.item;
+                var name = item.dataset.name;
+//                this.canvasComponentList.push({name})
+                /*var mountNode = item.childNodes[0];
+                 var componentConstruct = me.$options.components[name];
+                 var instance = new vue(Object.assign(componentConstruct, {
+                 el: mountNode
+                 }));
+                 var handler = me.renderSettingForm.bind(me, name, instance);
+                 item.onclick = handler;*/
             }
         },
         data: function () {
             var me = this;
             return {
-                componentList: ['Hello', 'radioHello','wmTable','wmForm'],
+                componentList: ['Hello', 'radioHello', 'wmTable', 'wmForm'],
+                canvasComponentList: [],
                 settingData: {},
                 settingInstance: {},
                 componentListSortableOption: {
@@ -72,26 +123,13 @@
                 },
                 canvasSortableOption: {
                     group: {
-                        name: 'canvasSortableGroup',
+                        name: 'canvasSortableGroup1',
                         pull: false,
-                        put: true
+                        put: ['canvasSortableGroup']
                     },
+                    draggable: ".canvasItemWrap",
                     animation: 150,
-                    filter: '.component-trash, .component-edit',
-                    onFilter: function (evt) {
-                        console.log('filter');
-                    },
-                    onAdd: function (evt) {
-                        var item = evt.item;
-                        var name = item.dataset.name;
-                        var mountNode = item.childNodes[0];
-                        var componentConstruct = me.$options.components[name];
-                        var instance = new vue(Object.assign(componentConstruct, {
-                            el: mountNode
-                        }));
-                        var handler = me.renderSettingForm.bind(me, name, instance);
-                        item.onclick = handler;
-                    }
+                    filter: '.filter',
                 }
             }
         },
@@ -100,12 +138,12 @@
                 var me = this;
                 return this.componentList.map((item) => {
                     var componentConstruct = me.$options.components[item];
-                    if(!componentConstruct){
+                    if (!componentConstruct) {
                         componentConstruct = vue.options.components[item];
                     }
                     var instance = new vue(componentConstruct);
                     me.$options.childInstance[item] = instance;
-                    if(instance.$options.name){
+                    if (instance.$options.name) {
                         return instance.$options.name
                     }
                     return componentConstruct.options.name
@@ -115,7 +153,6 @@
         watch: {
             componentShowList: {
                 handler: function () {
-                    console.log('fuck');
                 },
                 immediate: true
             }
@@ -150,14 +187,24 @@
             width: 280px;
         }
         .canvasWrap {
-            width: @componentWidth;
+            flex-grow: 1;
             .canvasSortable {
-                .fullHeight
+                .fullHeight;
+                .canvasItemWrap {
+                    position: relative;
+                    .filterWrap {
+                        position: absolute;
+                        z-index: 100;
+                        padding: 0 10px;
+                        right: 10px;
+                        border: 1px solid silver;
+                    }
+                }
             }
         }
         .settingForm {
+            width: 900px;
             background-color: silver;
-            flex-grow: 1;
         }
     }
 </style>

@@ -1,12 +1,12 @@
 <script>
     export default {
         props: {
-            columnData: {
+            /*columnData: {
                 type: Array,
                 default: function () {
                     return []
                 }
-            }
+            }*/
         },
         render: function (h) {
             var column = [];
@@ -29,7 +29,9 @@
         },
         name: 'wmTable',
         data(){
-            return {}
+            return {
+                columnData:[]
+            }
         },
         components: {}
     }
