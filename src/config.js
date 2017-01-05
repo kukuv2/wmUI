@@ -16,24 +16,8 @@ export default {
                         {
                             tag: 'el-input',
                             data: {
-                                directives: [
-                                    {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: (formInline.user),
-                                        expression: "formInline.user"
-                                    }
-                                ],
                                 attrs: {
                                     "placeholder": "审批人"
-                                },
-                                domProps: {
-                                    "value": (formInline.user)
-                                },
-                                on: {
-                                    "input": function ($event) {
-                                        formInline.user = $event
-                                    }
                                 }
                             }
                         }
@@ -46,39 +30,54 @@ export default {
                         {
                             tag: 'el-select',
                             data: {
-                                directives: [
-                                    {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: (formInline.region),
-                                        expression: "formInline.region"
-                                    }
-                                ],
                                 attrs: {
                                     "placeholder": "活动区域"
                                 },
-                                domProps: {
-                                    "value": (formInline.region)
-                                },
-                                on: {
-                                    "input": function ($event) {
-                                        formInline.region = $event
-                                    }
-                                }
                             },
                             children: [
-                                _c('el-option', {
-                                    attrs: {
-                                        "label": "区域一",
-                                        "value": "shanghai"
+                                {
+                                    tag: 'el-option',
+                                    data: {
+                                        attrs: {
+                                            "label": "区域一",
+                                            "value": "shanghai"
+                                        }
                                     }
-                                }), _v(" "), _c('el-option', {
-                                    attrs: {
-                                        "label": "区域二",
-                                        "value": "beijing"
+                                }, " ", {
+                                    tag: 'el-option',
+                                    data: {
+                                        attrs: {
+                                            "label": "区域二",
+                                            "value": "beijing"
+                                        }
                                     }
-                                })
+                                }
                             ]
+                        }
+                    ]
+                },
+                {
+                    tag: 'el-form-item',
+                    data: {},
+                    children: [
+                        {
+                            tag: 'el-date-picker',
+                            data: {
+                                attrs: {
+                                    type: "date",
+                                    placeholder: "选择日期"
+                                },
+                            }
+                        }
+                    ]
+                },
+                {
+                    tag: 'el-form-item',
+                    data: {},
+                    children: [
+                        {
+                            tag: 'el-switch',
+                            data: {}
                         }
                     ]
                 },
@@ -92,9 +91,6 @@ export default {
                                 attrs: {
                                     "type": "primary"
                                 },
-                                on: {
-                                    "click": onSubmit
-                                }
                             },
                             children: ["查询"]
                         }
