@@ -47,7 +47,6 @@
 </style>
 <script>
     import _ from 'lodash'
-    import radioGroup from '../radioGroup'
     import templateInput from '../templateInput'
     export default{
         name: 'vueForm',
@@ -73,7 +72,7 @@
             return (
                     <div class="vueForm">
                         <el-form ref="ruleForm"
-                                 label-width="100px"
+                                 label-width="70px"
                                  class="demo-ruleForm">
                             {
                                 this.sortChildComponentData.map(function (childComponentData, key) {
@@ -246,7 +245,7 @@
         },
         components: {
             templateInput,
-            radioGroup
+            
         },
         /*created: function () {
          this.backFillValue();

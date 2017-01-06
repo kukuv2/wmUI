@@ -1,19 +1,29 @@
 <template>
     <div id="app">
-        <div class="componentWrap">
+        <div class="box-card el-card componentWrap el-col-8">
+            <div class="el-card__header">
+                <div class="clearfix">
+                    <h2>组件列表</h2>
+                </div>
+            </div>
             <draggable :list="componentShowList"
                        :options="componentListSortableOption"
                        :clone="clone"
                        class="dragArea">
                 <li v-for="item in componentShowList"
                     :data-name="item">
-                    <div id="mount">
+                    <div id="mount" class="el-menu-item">
                         {{item}}
                     </div>
                 </li>
             </draggable>
         </div>
-        <div class="canvasWrap">
+        <div class="box-card el-card canvasWrap el-col-8">
+            <div class="el-card__header">
+                <div class="clearfix">
+                    <h2>页面画布</h2>
+                </div>
+            </div>
             <draggable :list="canvasComponentList"
                        :options="canvasSortableOption"
                        class="canvasSortable"
@@ -35,7 +45,12 @@
                 </div>
             </draggable>
         </div>
-        <div class="settingForm">
+        <div class="box-card el-card settingForm el-col-8">
+            <div class="el-card__header">
+                <div class="clearfix">
+                    <h2>组件设置</h2>
+                </div>
+            </div>
             <setting-bridge ref="settingBridge"
                             :setting-data="settingData"
                             :instance="settingInstance"></setting-bridge>
@@ -44,10 +59,15 @@
 </template>
 
 <script>
+    import checkBox from './components/checkBox/setting'
+    import dateTimePicker from './components/dateTimePicker/setting'
     import Hello from './components/Hello/setting'
+    import inputWidthLabel from './components/inputWidthLabel/setting'
+    import pureButton from './components/pureButton/setting'
+    import pureInput from './components/pureInput/setting'
+    import radios from './components/radios/setting'
     import wmForm from './components/wmForm/setting'
     import wmTable from './components/wmTable/setting'
-    import radioHello from './components/radioHello/setting'
     import settingBridge from './components/settingBridge'
     import vue from 'vue'
     import sortable from './directive/vueSortable'
@@ -59,12 +79,16 @@
             sortable
         },
         components: {
+            checkBox,
+            dateTimePicker,
             Hello,
+            inputWidthLabel,
+            pureButton,
+            pureInput,
+            radios,
+            settingBridge,
             wmForm,
             wmTable,
-            settingBridge,
-            radioHello,
-            draggable
         },
         methods: {
             clone: function (origin) {
@@ -108,8 +132,17 @@
         data: function () {
             var me = this;
             return {
-                componentList: ['Hello', 'radioHello', 'wmTable', 'wmForm'],
-                canvasComponentList: [],
+                componentList: [
+                    'checkBox',
+                    'dateTimePicker',
+                    'Hello',
+                    'inputWidthLabel',
+                    'pureButton',
+                    'pureInput',
+                    'radios',
+                    'wmForm',
+                    'wmTable',
+                ],
                 settingData: {},
                 settingInstance: {},
                 componentListSortableOption: {
@@ -185,6 +218,15 @@
         display: flex;
         .componentWrap {
             width: 280px;
+            height: 100vh;
+            font-family: 'microsoft yahei';
+
+            .el-menu-item{
+                font-size: 1.6rem;
+                height: 2.66667rem;
+                line-height: 2;
+                font-family: 'helvetica';
+            }
         }
         .canvasWrap {
             flex-grow: 1;
@@ -205,6 +247,10 @@
         .settingForm {
             width: 900px;
             background-color: silver;
+            #settingBridge{
+                background-color: #eff2f7;
+                height: 100vh;
+            }
         }
     }
 </style>
