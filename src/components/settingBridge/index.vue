@@ -1,14 +1,10 @@
 <script>
     import vueForm from '../vueForm'
     import vue from 'vue'
-    import mixinUuid from '../../mixin/uuid'
     import _ from 'lodash'
-    import getVueUtil from '../../mixin/getVueUtil'
-    import appendByEl from '../../mixin/appendByEl'
     let vNodeTemp = {};
     let settingIdTemp = 0;
     export default{
-        mixins: [mixinUuid, getVueUtil, appendByEl],
         data(){
             return {
                 msg: 'hello vue'
@@ -17,7 +13,6 @@
         props: {
             settingData: Object,
             instance: Object,
-//            settingItem:Object
         },
         components: {
             vueForm,
@@ -58,11 +53,7 @@
         },
         methods: {
             handleSubmit: function (data) {
-//                this.instance.$set(this.instance,'submitData',data);
                 this.instance['submitData'] = data
-                /*if(data.nestedData){
-                    this.settingItem.nestedData = data.nestedData
-                }*/
                 _.forEach(data,(item,key) => {
                     this.instance.$set(this.instance, key, item)
                 })

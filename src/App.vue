@@ -10,14 +10,10 @@
     import wmTable from './components/wmTable/setting'
     import settingBridge from './components/settingBridge'
     import vue from 'vue'
-    import sortable from './directive/vueSortable'
     import draggable from 'vuedraggable'
 
     export default {
         name: 'App',
-        directives: {
-            sortable
-        },
         components: {
             checkBox,
             dateTimePicker,
@@ -151,7 +147,6 @@
                 return '';
             },
             changeItem:function (nestedData) {
-                debugger
                 this.settingItem.nestedData = nestedData
             },
             clone: function (origin) {
@@ -159,15 +154,7 @@
                     name: origin,
                     ref: new Date().getTime()
                 }
-            }
-            /*,
-             renderSettingForm: function (componentName, instance, e) {
-             var setting = instance.$options.props.settingDefinition
-             setting.id = setting.id ? setting.id + 1 : 1
-             this.settingData = setting
-             this.settingInstance = instance
-             }*/
-            ,
+            },
             clickCanvasItem: function (item) {
 
                 var instance = this.$refs[item.ref]
@@ -180,11 +167,7 @@
                 this.settingItem = item
                 this.settingInstance = instance
             }
-            ,
-            onAdd: function (evt) {
-            }
-        }
-        ,
+        },
         data: function () {
             var me = this;
             return {
@@ -242,17 +225,7 @@
                     return componentConstruct.options.name
                 })
             }
-        }
-        ,
-        watch: {
-            componentShowList: {
-                handler: function () {
-                }
-                ,
-                immediate: true
-            }
-        }
-        ,
+        },
         beforeCreate: function () {
             this.$options.componentSetting = {};
         }

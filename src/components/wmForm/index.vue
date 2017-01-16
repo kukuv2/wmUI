@@ -15,7 +15,6 @@
     }
 </style>
 <script>
-    import {form} from 'element-ui'
     export default {
         props:{},
         name:'wmForm',
