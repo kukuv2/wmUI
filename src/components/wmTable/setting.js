@@ -19,7 +19,6 @@ index.props['settingDefinition'] = {
     },
     computed: {
         submitData: function () {
-
             return {
                 columnData: this.columnData.value
             }

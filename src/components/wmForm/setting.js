@@ -1,21 +1,41 @@
 import index from './index'
 index.props['settingDefinition'] = {
+    nest: {
+        render:function (h,component,item) {
+
+            var label = item ? item.label : '默认'
+            return (
+                <el-form-item label={label}>
+                    {component}
+                </el-form-item>
+            )
+        }
+    },
+
     setting: {
-        msg: {
-            type: 'templateInput',
-            label: '显示信息',
+        text: {
+            type: 'el-input',
+            label: '按钮文案',
             require: true,
             componentData: {
-                template: '%i',
-                inputValue: []
+                value:'',
+                template: '%i'
             },
         }
     },
     computed: {
         submitData: function () {
             return {
-                msg: this.msg.inputValue[0]
+                nestedData:[{
+                    label:this.text.value
+                }],
+                msg: this.text.value
             }
+        }
+    },
+    methods:{
+        backFill:function (submitData) {
+            this.text.value = submitData.msg
         }
     }
 }

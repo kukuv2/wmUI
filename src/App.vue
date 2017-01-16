@@ -1,63 +1,3 @@
-<template>
-    <div id="app">
-        <div class="box-card el-card componentWrap el-col-8">
-            <div class="el-card__header">
-                <div class="clearfix">
-                    <h2>组件列表</h2>
-                </div>
-            </div>
-            <draggable :list="componentShowList"
-                       :options="componentListSortableOption"
-                       :clone="clone"
-                       class="dragArea">
-                <li v-for="item in componentShowList"
-                    :data-name="item">
-                    <div id="mount" class="el-menu-item">
-                        {{item}}
-                    </div>
-                </li>
-            </draggable>
-        </div>
-        <div class="box-card el-card canvasWrap el-col-8">
-            <div class="el-card__header">
-                <div class="clearfix">
-                    <h2>页面画布</h2>
-                </div>
-            </div>
-            <draggable :list="canvasComponentList"
-                       :options="canvasSortableOption"
-                       class="canvasSortable"
-                       @add="onAdd">
-                <div v-for="(item,index) in canvasComponentList"
-                     class="canvasItemWrap">
-                    <div class="filter filterWrap">
-                        <i class="el-icon-edit filter"
-                           @click="clickCanvasItem(item)"></i>
-                    </div>
-                    <component :is="item.name"
-                               :ref="item.ref">
-                        <draggable :list="canvasComponentList"
-                                   v-if="item.name === 'wmForm'"
-                                   :options="canvasSortableOption"
-                                   class="canvasSortable"
-                                   @add="onAdd"></draggable>
-                    </component>
-                </div>
-            </draggable>
-        </div>
-        <div class="box-card el-card settingForm el-col-8">
-            <div class="el-card__header">
-                <div class="clearfix">
-                    <h2>组件设置</h2>
-                </div>
-            </div>
-            <setting-bridge ref="settingBridge"
-                            :setting-data="settingData"
-                            :instance="settingInstance"></setting-bridge>
-        </div>
-    </div>
-</template>
-
 <script>
     import checkBox from './components/checkBox/setting'
     import dateTimePicker from './components/dateTimePicker/setting'
@@ -89,46 +29,162 @@
             settingBridge,
             wmForm,
             wmTable,
+            draggable
+        },
+        render: function (h) {
+            return (
+                    <div id="app">
+                        <div class="box-card el-card componentWrap el-col-8">
+                            <div class="el-card__header">
+                                <div class="clearfix">
+                                    <h2>组件列表</h2>
+                                </div>
+                            </div>
+                            <draggable list={this.componentShowList}
+                                       options={this.componentListSortableOption}
+                                       clone={this.clone}
+                                       class="dragArea">
+                                {
+                                    this.componentShowList.map(function (item) {
+                                        return (
+                                                <li>
+                                                    <div id="mount"
+                                                         class="el-menu-item">
+                                                        {item}
+                                                    </div>
+                                                </li>
+                                        )
+                                    })
+                                }
+                            </draggable>
+                        </div>
+                        <div class="box-card el-card canvasWrap el-col-8">
+                            <div class="el-card__header">
+                                <div class="clearfix">
+                                    <h2>页面画布</h2>
+                                </div>
+                            </div>
+                            <draggable list={this.canvasComponentList}
+                                       options={this.canvasSortableOption}
+                                       class="canvasSortable">
+                                {
+                                    this.canvasComponentList.map((item) => {
+                                        return (
+                                                <div key={item.ref}
+                                                     class="canvasItemWrap">
+                                                    <div class="filter filterWrap">
+                                                        <i class="el-icon-edit filter"
+                                                           onClick={this.clickCanvasItem.bind(this,item)}></i>
+                                                    </div>
+                                                    {
+                                                        h(item.name, {
+                                                            ref: item.ref
+                                                        }, [this.getNestedInfo(item, h)])
+                                                    }
+                                                </div>
+                                        )
+                                    })
+                                }
+                            </draggable>
+                        </div>
+                        <div class="box-card el-card settingForm el-col-8">
+                            <div class="el-card__header">
+                                <div class="clearfix">
+                                    <h2>组件设置</h2>
+                                </div>
+                            </div>
+                            <setting-bridge ref="settingBridge"
+                                            setting-data={this.settingData}
+                                            onChangeItem={this.changeItem}
+                                            setting-item={this.settingItem}
+                                            instance={this.settingInstance}></setting-bridge>
+                        </div>
+                    </div>
+            )
         },
         methods: {
+            getNestedInfo: function (item, h) {
+                var setting = this.$options.componentSetting[item.name];
+                if (setting && setting.nest) {
+                    if (!item.canvasComponentList) {
+                        vue.set(item, 'canvasComponentList', []);
+                    }
+                    if (!item.nestedData) {
+                        vue.set(item, 'nestedData', []);
+                    }
+                    if (!item.canvasSortableOption) {
+                        item.canvasSortableOption = {
+                            group: {
+                                name: 'canvasSortableGroup2',
+                                pull: false,
+                                put: ['canvasSortableGroup']
+                            },
+                            draggable: ".canvasItemWrap",
+                            animation: 150,
+                            filter: '.filter',
+                        };
+                    }
+                    return (
+                            <draggable list={item.canvasComponentList}
+                                       options={item.canvasSortableOption}
+                                       class="canvasSortable1">
+                                {
+                                    item.canvasComponentList.map((nestedItem, index) => {
+                                        return (
+                                                <div key={nestedItem.ref}
+                                                     class="canvasItemWrap">
+                                                    <div class="filter filterWrap">
+                                                        <i class="el-icon-edit filter"
+                                                           onClick={this.clickCanvasItem.bind(this,nestedItem)}></i>
+                                                    </div>
+                                                    {setting.nest.render(h, h(nestedItem.name, {
+                                                                ref: nestedItem.ref
+                                                            }), item.nestedData[index]
+                                                    )}
+                                                </div>
+                                        )
+                                    })
+                                }
+                            </draggable>
+                    );
+                }
+                return '';
+            },
+            changeItem:function (nestedData) {
+                debugger
+                this.settingItem.nestedData = nestedData
+            },
             clone: function (origin) {
                 return {
                     name: origin,
                     ref: new Date().getTime()
                 }
-            },
-            renderSettingForm: function (componentName, instance, e) {
-                var setting = instance.$options.props.settingDefinition
-                setting.id = setting.id ? setting.id + 1 : 1
-                this.settingData = setting
-                this.settingInstance = instance
-//                this.$refs.settingBridge.render(setting);
-//                var target = e.target;
-//                console.log(arguments);
-            },
+            }
+            /*,
+             renderSettingForm: function (componentName, instance, e) {
+             var setting = instance.$options.props.settingDefinition
+             setting.id = setting.id ? setting.id + 1 : 1
+             this.settingData = setting
+             this.settingInstance = instance
+             }*/
+            ,
             clickCanvasItem: function (item) {
+
                 var instance = this.$refs[item.ref]
                 if (Array.isArray(instance)) {
                     instance = instance[0]
                 }
                 var setting = instance.$options.props.settingDefinition
-                setting.id = setting.id ? setting.id + 1 : 1
+                setting.id = ++this.settingId
                 this.settingData = setting
+                this.settingItem = item
                 this.settingInstance = instance
-            },
-            onAdd: function (evt) {
-                var item = evt.item;
-                var name = item.dataset.name;
-//                this.canvasComponentList.push({name})
-                /*var mountNode = item.childNodes[0];
-                 var componentConstruct = me.$options.components[name];
-                 var instance = new vue(Object.assign(componentConstruct, {
-                 el: mountNode
-                 }));
-                 var handler = me.renderSettingForm.bind(me, name, instance);
-                 item.onclick = handler;*/
             }
-        },
+            ,
+            onAdd: function (evt) {
+            }
+        }
+        ,
         data: function () {
             var me = this;
             return {
@@ -144,7 +200,10 @@
                     'wmTable',
                 ],
                 settingData: {},
+                settingId: 1,
+                settingItem: {},
                 settingInstance: {},
+                canvasComponentList: [],
                 componentListSortableOption: {
                     group: {
                         name: 'canvasSortableGroup',
@@ -165,7 +224,8 @@
                     filter: '.filter',
                 }
             }
-        },
+        }
+        ,
         computed: {
             componentShowList: function () {
                 var me = this;
@@ -175,23 +235,26 @@
                         componentConstruct = vue.options.components[item];
                     }
                     var instance = new vue(componentConstruct);
-                    me.$options.childInstance[item] = instance;
+                    me.$options.componentSetting[item] = componentConstruct.props.settingDefinition;
                     if (instance.$options.name) {
                         return instance.$options.name
                     }
                     return componentConstruct.options.name
                 })
             }
-        },
+        }
+        ,
         watch: {
             componentShowList: {
                 handler: function () {
-                },
+                }
+                ,
                 immediate: true
             }
-        },
+        }
+        ,
         beforeCreate: function () {
-            this.$options.childInstance = {};
+            this.$options.componentSetting = {};
         }
 
     }
@@ -221,7 +284,7 @@
             height: 100vh;
             font-family: 'microsoft yahei';
 
-            .el-menu-item{
+            .el-menu-item {
                 font-size: 1.6rem;
                 height: 2.66667rem;
                 line-height: 2;
@@ -247,10 +310,14 @@
         .settingForm {
             width: 900px;
             background-color: silver;
-            #settingBridge{
+            #settingBridge {
                 background-color: #eff2f7;
                 height: 100vh;
             }
         }
+    }
+
+    .canvasSortable1 {
+        min-height: 500px;
     }
 </style>

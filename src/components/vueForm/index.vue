@@ -177,30 +177,33 @@
              return validateResult;
              }*/
         },
-        /*beforeCreate:function () {
-         console.log('beforeCreate');
-         },
-         created:function () {
-         console.log('created');
-         },
+//        beforeCreate:function () {
+//         console.log('beforeCreate');
+//         },
+//         created:function () {
+//         console.log('created');
+//         },
          beforeMount:function () {
          console.log('beforeMount');
          },
-         updated:function () {
-         console.log('updated');
+        mounted:function () {
+         console.log('mounted');
          },
-         activated:function () {
-         console.log('activated');
-         },
-         deactivated:function () {
-         console.log('deactivated');
-         },
-         beforeDestory:function () {
-         console.log('beforeDestory');
-         },
-         destroyed:function () {
-         console.log(`destoryed`);
-         },*/
+//         updated:function () {
+//         console.log('updated');
+//         },
+//         activated:function () {
+//         console.log('activated');
+//         },
+//         deactivated:function () {
+//         console.log('deactivated');
+//         },
+//         beforeDestory:function () {
+//         console.log('beforeDestory');
+//         },
+//         destroyed:function () {
+//         console.log(`destoryed`);
+//         },
         data(){
             var setting = this.$options.setting
             var sortChildComponentData = []
