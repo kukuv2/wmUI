@@ -4,11 +4,11 @@ var utils = require('./utils')
 var projectRoot = path.resolve(__dirname, '../')
 
 module.exports = {
-    entry: {
+    /*entry: {
         app: './src/main.js',
         show: './src/show.js',
         action: './src/action.js',
-    },
+    },*/
     output: {
         path: config.build.assetsRoot,
         publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath,
