@@ -57,7 +57,16 @@
                         <div class="box-card el-card canvasWrap el-col-8">
                             <div class="el-card__header">
                                 <div class="clearfix">
-                                    <h2>页面画布</h2>
+                                    <el-row>
+                                        <el-col span={12}>
+                                            <h2>页面画布</h2>
+                                        </el-col>
+                                        <el-col span={12}>
+                                            <el-button type="primary"
+                                                       onClick={this.getRenderConfig}>提交
+                                            </el-button>
+                                        </el-col>
+                                    </el-row>
                                 </div>
                             </div>
                             <draggable list={this.canvasComponentList}
@@ -91,7 +100,7 @@
                             </div>
                             <setting-bridge ref="settingBridge"
                                             setting-data={this.settingData}
-                                            onChangeItem={this.changeItem}
+                                            onChangeItem={this.changeItemNestedData}
                                             setting-item={this.settingItem}
                                             instance={this.settingInstance}></setting-bridge>
                         </div>
@@ -146,7 +155,26 @@
                 }
                 return '';
             },
-            changeItem:function (nestedData) {
+            getRenderConfig: function () {
+                let getRenderResult = (canvasComponentList) => {
+                    return canvasComponentList.map((item) => {
+                        let instance = this.$refs[item.ref]
+                        let renderVnode = {
+                            tag:item.name,
+                            data:{
+                                props:instance.submitData
+                            }
+                        }
+                        if(item.canvasComponentList){
+                            renderVnode.children = getRenderResult(item.canvasComponentList)
+                        }
+                        return renderVnode
+                    })
+                }
+                let result = getRenderResult(this.canvasComponentList)
+                alert(JSON.stringify(result))
+            },
+            changeItemNestedData: function (nestedData) {
                 this.settingItem.nestedData = nestedData
             },
             clone: function (origin) {
@@ -169,7 +197,6 @@
             }
         },
         data: function () {
-            var me = this;
             return {
                 componentList: [
                     'checkBox',

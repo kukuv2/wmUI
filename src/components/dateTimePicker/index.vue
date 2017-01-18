@@ -1,7 +1,10 @@
 <template>
     <div class="dateTimePicker">
-        <h1>{{ msg }}</h1>
-        <slot></slot>
+        <el-date-picker
+                v-model="value"
+                type="datetime"
+                placeholder="选择日期时间">
+        </el-date-picker>
     </div>
 </template>
 
@@ -15,7 +18,9 @@
             }
         },
         data () {
-            return {}
+            return {
+                value:''
+            }
         }
     }
 </script>

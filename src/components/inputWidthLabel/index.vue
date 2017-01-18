@@ -1,7 +1,6 @@
 <template>
     <div class="inputWidthLabel">
-        <h1>{{ msg }}</h1>
-        <slot></slot>
+        <el-input v-model="value" placeholder="请输入内容"></el-input>
     </div>
 </template>
 
@@ -15,7 +14,9 @@
             }
         },
         data () {
-            return {}
+            return {
+                value:''
+            }
         }
     }
 </script>

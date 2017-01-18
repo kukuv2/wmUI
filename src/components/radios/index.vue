@@ -1,7 +1,10 @@
 <template>
     <div class="radios">
-        <h1>{{ msg }}</h1>
-        <slot></slot>
+        <el-radio-group v-model="radio">
+            <el-radio :label="3">备选项</el-radio>
+            <el-radio :label="6">备选项</el-radio>
+            <el-radio :label="9">备选项</el-radio>
+        </el-radio-group>
     </div>
 </template>
 
@@ -15,7 +18,9 @@
             }
         },
         data () {
-            return {}
+            return {
+                radio:''
+            }
         }
     }
 </script>

@@ -5,13 +5,13 @@
                 <el-col :span="10">
                     <el-input placeholder="请输入内容"
                               v-model="item.label">
-                        <template slot="prepend">列标题</template>
+                        <template slot="prepend">表单项标签</template>
                     </el-input>
                 </el-col>
                 <el-col :span="10">
                     <el-input placeholder="请输入内容"
                               v-model="item.prop">
-                        <template slot="prepend">列对应属性</template>
+                        <template slot="prepend">表单项属性</template>
                     </el-input>
                 </el-col>
                 <el-col :span="2">
@@ -34,7 +34,6 @@
        rel="stylesheet/less"
        scoped>
     .wrap {
-        /*width:550px*/
     }
 </style>
 <script>
@@ -62,6 +61,7 @@
             selfValue: {
                 deep: true,
                 handler: function (value) {
+
                     this.$emit('input', value)
                 }
             }

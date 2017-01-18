@@ -1,7 +1,6 @@
 <template>
     <div class="checkBox">
-        <h1>{{ text }}</h1>
-        <slot></slot>
+        <el-checkbox v-model="checked">备选项</el-checkbox>
     </div>
 </template>
 
@@ -15,7 +14,9 @@
             }
         },
         data () {
-            return {}
+            return {
+                checked:false
+            }
         }
     }
 </script>

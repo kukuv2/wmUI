@@ -1,9 +1,11 @@
 import index from './index'
+import gatherFormItemData from './gatherFormItemData/index.vue'
 index.props['settingDefinition'] = {
     nest: {
         render:function (h,component,item) {
 
             var label = item ? item.label : '默认'
+            debugger
             return (
                 <el-form-item label={label}>
                     {component}
@@ -11,31 +13,32 @@ index.props['settingDefinition'] = {
             )
         }
     },
-
     setting: {
-        text: {
-            type: 'el-input',
-            label: '按钮文案',
+        formItemData: {
+            type: 'gatherFormItemData',
+            label: '显示信息',
             require: true,
             componentData: {
-                value:'',
-                template: '%i'
+                value:[{
+                    prop:'',
+                    label:'默认'
+                }]
             },
         }
+    },
+    components:{
+        gatherFormItemData
     },
     computed: {
         submitData: function () {
             return {
-                nestedData:[{
-                    label:this.text.value
-                }],
-                msg: this.text.value
+                nestedData:this.formItemData.value,
             }
         }
     },
     methods:{
         backFill:function (submitData) {
-            this.text.value = submitData.msg
+            this.formItemData.value = submitData.nestedData
         }
     }
 }

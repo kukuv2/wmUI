@@ -1,12 +1,6 @@
 <script>
     export default {
         props: {
-            /*columnData: {
-                type: Array,
-                default: function () {
-                    return []
-                }
-            }*/
         },
         render: function (h) {
             var column = [];
