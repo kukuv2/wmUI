@@ -1,27 +1,35 @@
 import index from './index'
+import radioList from './radioList/index.vue'
 index.props['settingDefinition'] = {
     setting: {
-        msg: {
-            type: 'el-input',
-            label: '显示信息',
+        allRadioData: {
+            type: 'radioList',
+            label: '',
             require: true,
             componentData: {
-                value:'',
-                template: '%i',
-                inputValue: []
+                radioValue: '',
+                value:[{
+                    label: '默认',
+                    value: ''
+                }]
             },
         }
+    },
+    components:{
+        radioList
     },
     computed: {
         submitData: function () {
             return {
-                msg: this.msg.value
+                allRadioData: this.allRadioData.value,
+                radioValue: this.allRadioData.radioValue
             }
         }
     },
     methods:{
         backFill:function (submitData) {
-            this.msg.value = submitData.msg
+            this.allRadioData.value = submitData.allRadioData,
+            this.allRadioData.radioValue = submitData.radioValue
         }
     }
 }

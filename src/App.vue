@@ -2,7 +2,7 @@
     import checkBox from './components/checkBox/setting'
     import dateTimePicker from './components/dateTimePicker/setting'
     import Hello from './components/Hello/setting'
-    import inputWidthLabel from './components/inputWidthLabel/setting'
+    import inputWithLabel from './components/inputWithLabel/setting'
     import pureButton from './components/pureButton/setting'
     import pureInput from './components/pureInput/setting'
     import radios from './components/radios/setting'
@@ -18,7 +18,7 @@
             checkBox,
             dateTimePicker,
             Hello,
-            inputWidthLabel,
+            inputWithLabel,
             pureButton,
             pureInput,
             radios,
@@ -77,9 +77,9 @@
                                         return (
                                                 <div key={item.ref}
                                                      class="canvasItemWrap">
-                                                    <div class="filter filterWrap">
-                                                        <i class="el-icon-edit filter"
-                                                           onClick={this.clickCanvasItem.bind(this,item)}></i>
+                                                    <div class="filter filterWrap" onClick={this.clickCanvasItem.bind(this,item)}>
+                                                        <i class="el-icon-edit filter">
+                                                        </i>
                                                     </div>
                                                     {
                                                         h(item.name, {
@@ -138,9 +138,9 @@
                                         return (
                                                 <div key={nestedItem.ref}
                                                      class="canvasItemWrap">
-                                                    <div class="filter filterWrap">
-                                                        <i class="el-icon-edit filter"
-                                                           onClick={this.clickCanvasItem.bind(this,nestedItem)}></i>
+                                                    <div class="filter filterWrap" onClick={this.clickCanvasItem.bind(this,nestedItem)}>
+                                                        <i class="el-icon-edit filter">
+                                                        </i>
                                                     </div>
                                                     {setting.nest.render(h, h(nestedItem.name, {
                                                                 ref: nestedItem.ref
@@ -201,8 +201,7 @@
                 componentList: [
                     'checkBox',
                     'dateTimePicker',
-                    'Hello',
-                    'inputWidthLabel',
+                    'inputWithLabel',
                     'pureButton',
                     'pureInput',
                     'radios',

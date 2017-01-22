@@ -1,9 +1,7 @@
 <template>
     <div class="radios">
-        <el-radio-group v-model="radio">
-            <el-radio :label="3">备选项</el-radio>
-            <el-radio :label="6">备选项</el-radio>
-            <el-radio :label="9">备选项</el-radio>
+        <el-radio-group v-model="radioValue">
+            <el-radio v-for="item in allRadioData" :label="item.value">{{item.label}}</el-radio>
         </el-radio-group>
     </div>
 </template>
@@ -12,22 +10,14 @@
     export default {
         name: 'radios',
         props: {
-            msg: {
+            allRadioData: {
+                type: Array,
+                default: []
+            },
+            radioValue: {
                 type: String,
-                default: 'Hello Vue'
-            }
-        },
-        data () {
-            return {
-                radio:''
+                default: []
             }
         }
     }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-    h1 {
-        color: #42b983;
-    }
-</style>

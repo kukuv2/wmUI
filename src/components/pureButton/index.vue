@@ -1,6 +1,6 @@
 <template>
     <div class="pureButton">
-        <el-button type="primary">{{ text }}</el-button>
+        <el-button :icon="buttonIcon" :type="buttonType">{{ buttonText }}</el-button>
         <slot></slot>
     </div>
 </template>
@@ -9,9 +9,17 @@
     export default {
         name: 'pureButton',
         props: {
-            text: {
+            buttonText: {
                 type: String,
-                default: 'submit'
+                default: '提交'
+            },
+            buttonIcon: {
+                type: String,
+                default: 'plus'
+            },
+            buttonType: {
+                type: String,
+                default: 'primary'
             }
         },
         data () {

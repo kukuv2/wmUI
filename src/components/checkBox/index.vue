@@ -1,6 +1,8 @@
 <template>
     <div class="checkBox">
-        <el-checkbox v-model="checked">备选项</el-checkbox>
+        <el-checkbox-group v-model="checkList">
+            <el-checkbox v-for="item in allCheckData" :label="item.value">{{item.label}}</el-checkbox>
+        </el-checkbox-group>
     </div>
 </template>
 
@@ -8,22 +10,14 @@
     export default {
         name: 'checkBox',
         props: {
-            checkbox: {
-                type: String,
-                default: 'submit'
-            }
-        },
-        data () {
-            return {
-                checked:false
+            allCheckData: {
+                type: Array,
+                default: []
+            },
+            checkList: {
+                type: Array,
+                default: []
             }
         }
     }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-    h1 {
-        color: #42b983;
-    }
-</style>

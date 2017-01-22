@@ -1,26 +1,42 @@
 import index from './index'
+import checkBoxList from './checkBoxList/index.vue'
 index.props['settingDefinition'] = {
     setting: {
-        checkbox: {
-            type: 'el-checkbox',
-            label: '显示信息',
+        allCheckData: {
+            type: 'checkBoxList',
+            label: '',
             require: true,
             componentData: {
-                value:'',
-                template: '%i'
+                value:[{
+                    label: '默认',
+                    checked: false,
+                    value: ''
+                }]
             },
         }
     },
+    components:{
+        checkBoxList
+    },
     computed: {
         submitData: function () {
+            let getCheckData = this.allCheckData.value;
+            let getCheckList = [];
+            for (let i = 0; i < getCheckData.length; i ++) {
+                if (getCheckData[i].checked == true) {
+                    getCheckList.push(getCheckData[i].value);
+                };
+            };
             return {
-                checkbox: this.checkbox.value
+                allCheckData: getCheckData,
+                checkList: getCheckList
             }
         }
     },
     methods:{
         backFill:function (submitData) {
-            this.checkbox.value = submitData.checkbox
+            this.allCheckData.value = submitData.allCheckData,
+            this.checkList.value = submitData.checkList
         }
     }
 }
