@@ -1,5 +1,6 @@
 <template>
     <div class="inputWidthLabel">
+        <label class="el-form-item__label"></label>
         <el-input v-model="value" placeholder="请输入内容"></el-input>
     </div>
 </template>
@@ -8,9 +9,9 @@
     export default {
         name: 'inputWidthLabel',
         props: {
-            msg: {
+            labelText: {
                 type: String,
-                default: 'Hello Vue'
+                default: '请输入内容'
             }
         },
         data () {
