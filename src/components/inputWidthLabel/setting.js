@@ -15,13 +15,13 @@ index.props['settingDefinition'] = {
     computed: {
         submitData: function () {
             return {
-                msg: this.msg.value
+                labelText: this.labelText.value
             }
         }
     },
     methods:{
         backFill:function (submitData) {
-            this.msg.value = submitData.msg
+            this.labelText.value = submitData.labelText
         }
     }
 }
