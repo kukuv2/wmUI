@@ -1,9 +1,9 @@
 <template>
-    <div class="dateTimePicker">
+    <div class="datePicker">
         <el-date-picker
                 v-model="value"
-                type="datetime"
-                :format="datetimeFormat"
+                type="datetimerange"
+                :format="datetimeRangeFormat"
                 placeholder="选择日期">
         </el-date-picker>
     </div>
@@ -11,9 +11,9 @@
 
 <script>
     export default {
-        name: 'dateTimePicker',
+        name: 'dateTimeRangePicker',
         props: {
-            datetimeFormat: {
+            datetimeRangeFormat: {
                 type: String,
                 default: 'yyyy-MM-dd-HH-mm-ss'
             }

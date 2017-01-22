@@ -1,6 +1,9 @@
 <script>
     import checkBox from './components/checkBox/setting'
+    import datePicker from './components/datePicker/setting'
     import dateTimePicker from './components/dateTimePicker/setting'
+    import dateRangePicker from './components/dateRangePicker/setting'
+    import dateTimeRangePicker from './components/dateTimeRangePicker/setting'
     import Hello from './components/Hello/setting'
     import inputWithLabel from './components/inputWithLabel/setting'
     import pureButton from './components/pureButton/setting'
@@ -16,7 +19,10 @@
         name: 'App',
         components: {
             checkBox,
+            datePicker,
             dateTimePicker,
+            dateRangePicker,
+            dateTimeRangePicker,
             Hello,
             inputWithLabel,
             pureButton,
@@ -200,7 +206,10 @@
             return {
                 componentList: [
                     'checkBox',
+                    'datePicker',
                     'dateTimePicker',
+                    'dateRangePicker',
+                    'dateTimeRangePicker',
                     'inputWithLabel',
                     'pureButton',
                     'pureInput',
