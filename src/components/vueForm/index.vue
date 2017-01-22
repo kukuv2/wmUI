@@ -11,7 +11,7 @@
             return (
                     <div class="vueForm">
                         <el-form ref="ruleForm"
-                                 label-width="70px"
+                                 label-width="80px"
                                  class="demo-ruleForm">
                             {
                                 this.sortChildComponentData.map(function (childComponentData, key) {
