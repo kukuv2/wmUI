@@ -160,12 +160,12 @@
                     return canvasComponentList.map((item) => {
                         let instance = this.$refs[item.ref]
                         let renderVnode = {
-                            tag:item.name,
-                            data:{
-                                props:instance.submitData
+                            tag: item.name,
+                            data: {
+                                props: instance.submitData
                             }
                         }
-                        if(item.canvasComponentList){
+                        if (item.canvasComponentList) {
                             renderVnode.children = getRenderResult(item.canvasComponentList)
                         }
                         return renderVnode
@@ -234,8 +234,7 @@
                     filter: '.filter',
                 }
             }
-        }
-        ,
+        },
         computed: {
             componentShowList: function () {
                 var me = this;
@@ -250,6 +249,47 @@
                         return instance.$options.name
                     }
                     return componentConstruct.options.name
+                })
+            }
+        },
+        mounted: function () {
+            let testData = [
+                {
+                    "tag": "Hello",
+                    "data": {"props": {"msg": "好的算法的生活"}}
+                }, {
+                    "tag": "wmForm",
+                    "data": {
+                        "props": {
+                            "nestedData": [
+                                {
+                                    "prop": "",
+                                    "label": "默认稍等好啥地方"
+                                }, {
+                                    "label": "范德萨发啥",
+                                    "prop": ""
+                                }
+                            ]
+                        }
+                    },
+                    "children": [
+                        {
+                            "tag": "Hello",
+                            "data": {}
+                        }, {
+                            "tag": "pureButton",
+                            "data": {}
+                        }
+                    ]
+                }
+            ]
+
+            let generateCanvasComponentListData = (item) => {
+//                if(item.children)
+            }
+            if (location.href.indexOf('edit') !== -1) {
+                this.canvasComponentList = testData.map((item,index) => {
+
                 })
             }
         },

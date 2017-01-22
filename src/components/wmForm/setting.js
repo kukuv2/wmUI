@@ -5,7 +5,7 @@ index.props['settingDefinition'] = {
         render:function (h,component,item) {
 
             var label = item ? item.label : '默认'
-            debugger
+
             return (
                 <el-form-item label={label}>
                     {component}
