@@ -77,9 +77,9 @@
                                         return (
                                                 <div key={item.ref}
                                                      class="canvasItemWrap">
-                                                    <div class="filter filterWrap" onClick={this.clickCanvasItem.bind(this,item)}>
-                                                        <i class="el-icon-edit filter">
-                                                        </i>
+                                                    <div class="filter filterWrap"
+                                                         onClick={this.clickCanvasItem.bind(this,item)}>
+                                                        <i class="el-icon-edit filter"></i>
                                                     </div>
                                                     {
                                                         h(item.name, {
@@ -138,9 +138,9 @@
                                         return (
                                                 <div key={nestedItem.ref}
                                                      class="canvasItemWrap">
-                                                    <div class="filter filterWrap" onClick={this.clickCanvasItem.bind(this,nestedItem)}>
-                                                        <i class="el-icon-edit filter">
-                                                        </i>
+                                                    <div class="filter filterWrap"
+                                                         onClick={this.clickCanvasItem.bind(this,nestedItem)}>
+                                                        <i class="el-icon-edit filter"></i>
                                                     </div>
                                                     {setting.nest.render(h, h(nestedItem.name, {
                                                                 ref: nestedItem.ref
@@ -252,6 +252,37 @@
             }
         },
         mounted: function () {
+            let campareData = [
+                {
+                    "name": "pureButton",
+                    "ref": 1485087547134
+                }, {
+                    "name": "wmForm",
+                    "ref": 1485087542773,
+                    "canvasComponentList": [
+                        {
+                            "name": "pureInput",
+                            "ref": 1485087544205
+                        }
+                    ],
+                    "nestedData": [
+                        {
+                            "prop": "",
+                            "label": "aa"
+                        }
+                    ],
+                    "canvasSortableOption": {
+                        "group": {
+                            "name": "canvasSortableGroup2",
+                            "pull": false,
+                            "put": ["canvasSortableGroup"]
+                        },
+                        "draggable": ".canvasItemWrap",
+                        "animation": 150,
+                        "filter": ".filter"
+                    }
+                }
+            ]
             let testData = [
                 {
                     "tag": "Hello",
@@ -284,11 +315,35 @@
             ]
 
             let generateCanvasComponentListData = (item) => {
-//                if(item.children)
+                let canvasComponentList = []
+                let ref = new Date().getTime()
+                let result = {
+                    name: item.tag,
+                    ref
+                }
+                if (item.children) {
+                    canvasComponentList = item.children.map((item) => {
+                        return generateCanvasComponentListData(item)
+                    })
+                    result.canvasComponentList = canvasComponentList
+                    result.nestedData = item.data.props.nestedData
+                    result.canvasSortableOption = {
+                        "group": {
+                            "name": "canvasSortableGroup2",
+                            "pull": false,
+                            "put": ["canvasSortableGroup"]
+                        },
+                        "draggable": ".canvasItemWrap",
+                        "animation": 150,
+                        "filter": ".filter"
+                    }
+                }
+                return result
+
             }
             if (location.href.indexOf('edit') !== -1) {
-                this.canvasComponentList = testData.map((item,index) => {
-
+                this.canvasComponentList = testData.map((item, index) => {
+                    return generateCanvasComponentListData(item)
                 })
             }
         },
