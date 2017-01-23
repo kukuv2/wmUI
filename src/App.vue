@@ -79,13 +79,15 @@
                                        options={this.canvasSortableOption}
                                        class="canvasSortable">
                                 {
-                                    this.canvasComponentList.map((item) => {
+                                    this.canvasComponentList.map((item,index) => {
                                         return (
                                                 <div key={item.ref}
                                                      class="canvasItemWrap">
-                                                    <div class="filter filterWrap"
-                                                         onClick={this.clickCanvasItem.bind(this,item)}>
-                                                        <i class="el-icon-edit filter"></i>
+                                                    <div class="filter filterWrap">
+                                                        <i class="el-icon-edit filter"
+                                                           onClick={this.clickCanvasItem.bind(this,item)}></i>
+                                                        <i class="el-icon-delete filter"
+                                                           onClick={this.deleteCanvasItem.bind(this,this.canvasComponentList,index,item)}></i>
                                                     </div>
                                                     {
                                                         h(item.name, {
@@ -144,9 +146,10 @@
                                         return (
                                                 <div key={nestedItem.ref}
                                                      class="canvasItemWrap">
-                                                    <div class="filter filterWrap"
-                                                         onClick={this.clickCanvasItem.bind(this,nestedItem)}>
-                                                        <i class="el-icon-edit filter"></i>
+                                                    <div class="filter filterWrap">
+                                                        <i class="el-icon-edit filter" onClick={this.clickCanvasItem.bind(this,nestedItem)}></i>
+                                                        <i class="el-icon-delete filter"
+                                                           onClick={this.deleteCanvasItem.bind(this,item.canvasComponentList,index,nestedItem)}></i>
                                                     </div>
                                                     {setting.nest.render(h, h(nestedItem.name, {
                                                                 ref: nestedItem.ref
@@ -200,6 +203,10 @@
                 this.settingData = setting
                 this.settingItem = item
                 this.settingInstance = instance
+            },
+            deleteCanvasItem: function (canvasComponentList,index,item) {
+                canvasComponentList.splice(index,1)
+                delete this.$refs[item.ref]
             }
         },
         data: function () {
