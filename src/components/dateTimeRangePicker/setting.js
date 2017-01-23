@@ -1,7 +1,7 @@
 import index from './index'
 index.props['settingDefinition'] = {
     setting: {
-        datetimeFormat: {
+        datetimeRangeFormat: {
             type: 'el-input',
             label: '格式化',
             require: true,
@@ -15,13 +15,13 @@ index.props['settingDefinition'] = {
     computed: {
         submitData: function () {
             return {
-                datetimeFormat: this.datetimeFormat.value
+                datetimeRangeFormat: this.datetimeRangeFormat.value
             }
         }
     },
     methods:{
         backFill:function (submitData) {
-            this.datetimeFormat.value = submitData.datetimeFormat
+            this.datetimeRangeFormat.value = submitData.datetimeRangeFormat
         }
     }
 }
