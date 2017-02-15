@@ -1,3 +1,4 @@
+/*管理界面，管理组件，组件配置*/
 import Vue from 'vue'
 
 /* eslint-disable no-new */
